@@ -12,6 +12,12 @@
     <li><h3>Using design font by google</h3></li>
 </ul>
 
+<h3>What packages & library included</h3>
+<ul>
+    <li><h3>ReactJs</h3></li>
+	<li><h3>Tailwindcss</h3></li>
+</ul>
+
 
 <h3>Looking around of TodoList-mkeyhanil </h3>
 <img src='./public/img/Capture.PNG'/>
