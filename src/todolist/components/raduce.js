@@ -22,24 +22,35 @@ export function reducer(state, action) {
           DoThat: true,
         },
       ];
+      break;
 
-      break;
     case "DONE_TODO":
-      return [
-        (state[action.payload] = {
-          ...state[action.payload],
-          taskStatus: "Done",
-          disabled: true,
-        }),
-      ];
-      break;
-    case "DELETE_TODO":
-      const fil = state.filter((f) => {
-        if (f.taskId !== action.payload) {
-          return f;
+      const newState = state.map((e) => {
+        if (e.taskId === action.payload) {
+          return [
+            {
+              taskId: e.taskId,
+              taskName: e.taskName,
+              taskStatus: "Done",
+              disabled: true,
+              DoThat: true,
+            },
+          ];
         }
       });
-      return [fil];
+
+      let final = state;
+      final[action.payload] = newState;
+
+      if (final) {
+        return final;
+      }
+
+      return state;
+      break;
+
+    case "DELETE_TODO":
+      return state.filter((index) => index.taskId !== action.payload);
       break;
     default:
       break;

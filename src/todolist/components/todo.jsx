@@ -7,6 +7,7 @@ export default function Todo() {
   const [check, setCheck] = useState(false);
   const inputV = useRef();
   const [state, dispatch] = useReducer(reducer, initial);
+  const [blankToDo, setBlankToDo] = useState(false);
 
   const HandelTodo = (e) => {
     if (inputV.current.value) {
@@ -43,6 +44,12 @@ export default function Todo() {
     }
   };
 
+  const setValue = (e) => {
+    if (!e) {
+      setBlankToDo(true);
+    }
+  };
+
   return (
     <main className="h-screen bg-purple-600 text-4xl ">
       <div className="container pt-14">
@@ -59,39 +66,39 @@ export default function Todo() {
             </tr>
           </thead>
           <tbody>
-            {Object.keys(state.length) === 0 ? (
-              <p>there is not any todo</p>
-            ) : (
-              state.map((e, i) => {
-                if (e.DoThat) {
-                  return (
-                    <tr className="font-YsabeauOffice text-center" key={i}>
-                      <td className="border border-slate-700 ">{e.taskId}</td>
-                      <td className="border border-slate-700">{e.taskName}</td>
-                      <td className="border border-slate-700">
-                        {e.taskStatus}
-                      </td>
-                      <td className="border border-slate-700">
-                        <button
-                          onClick={() => DoneTodo(e.taskStatus, e.taskId)}
-                          className={`bg-green-300 p-2 rounded-lg m-6 font-RobotoSlab shadow-xl hover:cursor-pointer active:scale-90 ${
-                            e.disabled && "opacity-50 cursor-not-allowed"
-                          }`}
-                        >
-                          Done
-                        </button>
-                        <button
-                          onClick={() => DeleteTodo(e.taskId)}
-                          className="bg-red-300 p-2 rounded-lg m-6 font-RobotoSlab shadow-xl hover:cursor-pointer active:scale-90"
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                }
-              })
-            )}
+            {state.length === 1
+              ? setValue(blankToDo)
+              : state.map((e, i) => {
+                  if (e.DoThat) {
+                    return (
+                      <tr className="font-YsabeauOffice text-center" key={i}>
+                        <td className="border border-slate-700 ">{i}</td>
+                        <td className="border border-slate-700">
+                          {e.taskName}
+                        </td>
+                        <td className="border border-slate-700">
+                          {e.taskStatus}
+                        </td>
+                        <td className="border border-slate-700">
+                          <button
+                            onClick={() => DoneTodo(e.taskStatus, e.taskId)}
+                            className={`bg-green-300 p-2 rounded-lg m-6 font-RobotoSlab shadow-xl hover:cursor-pointer active:scale-90 ${
+                              e.disabled && "opacity-50 cursor-not-allowed"
+                            }`}
+                          >
+                            Done
+                          </button>
+                          <button
+                            onClick={() => DeleteTodo(e.taskId)}
+                            className="bg-red-300 p-2 rounded-lg m-6 font-RobotoSlab shadow-xl hover:cursor-pointer active:scale-90"
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  }
+                })}
           </tbody>
         </table>
         <div className="flex justify-evenly mt-20">
@@ -114,6 +121,8 @@ export default function Todo() {
             </button>
           </div>
         </div>
+        
+        {blankToDo && <div className="w-[600px] p-6 text-center mx-auto my-40 font-RobotoSlab rounded-lg bg-red-500"><h3>There is no any Todo</h3></div>}
       </div>
     </main>
   );
